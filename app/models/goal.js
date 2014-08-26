@@ -5,10 +5,11 @@ var Mongo = require('mongodb'),
 
 
 function Goal(o, userId){
-  this.name = o.name;
-  this.due  = new Date(o.due);
-  this.tags = o.tags.split(',');
+  this.name   = o.name;
+  this.due    = new Date(o.due);
+  this.tags   = o.tags.split(',');
   this.userId = userId;
+  this.tasks  = [];
 }
 
 Object.defineProperty(Goal, 'collection', {

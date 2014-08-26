@@ -101,4 +101,16 @@ describe('goals', function(){
       });
     });
   });
+  describe('post /goals/3/tasks', function(){
+    it('should create a task for a goal', function(done){
+      request(app)
+      .post('/goals/a00000000000000000000001/tasks')
+      .set('cookie', cookie)
+      .send('name=Get+Shoes&description=Buy+Shoes&difficulty=Hard&rank=1')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        done();
+      });
+    });
+  });
 });
