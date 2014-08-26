@@ -1,5 +1,9 @@
 'use strict';
 
+var Mongo = require('mongodb'),
+    _     = require('lodash');
+
+
 function Goal(o, userId){
   this.name = o.name;
   this.due  = new Date(o.due);
@@ -8,7 +12,7 @@ function Goal(o, userId){
 }
 
 Object.defineProperty(Goal, 'collection', {
-  get: function(){return global.mongodb.collection('people');}
+  get: function(){return global.mongodb.collection('goals');}
 });
 
 Goal.create = function(o, userId, cb){
@@ -16,5 +20,15 @@ Goal.create = function(o, userId, cb){
   Goal.collection.save(goal, cb);
 };
 
+Goal.findAllByUserId = function(userId, cb){
+  Goal.collection.find({userId:userId}).toArray(cb);
+};
+
+Goal.findById = function(id, cb){
+  var _id = Mongo.ObjectID(id);
+  Goal.collection.findOne({_id:_id}, function(err, obj){
+    cb(err, _.create(Goal.prototype, obj));
+  });
+};
 module.exports = Goal;
 
